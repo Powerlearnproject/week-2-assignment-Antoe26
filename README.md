@@ -34,42 +34,146 @@ Based on the Expense Tracker table you designed in Week 1, which likely includes
 
 Write an SQL query to retrieve all data points (columns) from the "Expenses" table.
 
+
+USE expense_tracker;
+SELECT *
+FROM expense_tracker.expenses;
+
+
+
+
 **1.2 Specific Columns:** 
 
 Modify your query to select only specific columns relevant to your analysis. For example, you might choose "date," "category," and "amount" to analyze spending patterns by category and date.
 
+SELECT * 
+FROM expenses
+WHERE category LIKE 'Ent%'
+AND date BETWEEN '2021-10-12' AND '2024-02-24'
+ORDER BY date ASC;
+
+
+
+
 **1.3 Filtering by Date Range:** 
 Write a query to retrieve expenses charged between a specific date range (e.g., January 1, 2021, to December 15, 2024).
 Remember to use the appropriate data type for the "date" column when specifying the date range in your query.
+
+
+
+SELECT * 
+FROM expenses
+WHERE date BETWEEN '2021-01-01' AND '2024-12-15'
+ORDER BY date ASC;
+
+
 
 ## Part 2: Filtering with WHERE Clause (45 minutes)
 
 **2.1 Filtering by Category:** 
 Write a query to find all expenses belonging to a specific category (e.g., "Entertainment").
 
+SELECT * 
+FROM expenses
+WHERE category LIKE 'Ent%';
+
+
+
 **2.2 Filtering with Comparison Operators:** 
 Find expenses with an amount greater than a certain value (e.g., $50).
+
+
+SELECT *
+FROM expenses
+WHERE amount>50
+ORDER BY amount;
+
 
 **2.3 Combining Filters (AND):**  
 Refine your query to find expenses that meet multiple criteria. For example, you might search for expenses greater than $75 AND belonging to the "Food" category.
 
+SELECT * FROM expenses
+WHERE category = 'Food'
+AND amount>75 ;
+
+
+
 **2.4 Combining Filters (OR):** 
 Modify your query to find expenses belonging to one category or another (e.g., "Transportation" OR "Groceries").
 
+
+
+SELECT *
+FROM expenses
+WHERE (date BETWEEN '2021-01-01' AND '2024-12-15')
+AND (category = 'Transportation' OR category = 'Groceries');
+
+
+
+
 **2.5 Filtering with NOT:** 
 Write a query to display expenses unrelated to a specific category (e.g., "Rent").
+
+
+SELECT *
+FROM expenses
+WHERE category NOT IN ('Rent');
+
+alternatively we can use;
+
+SELECT *
+FROM expenses
+WHERE category != 'Rent';
+
+
 
 ## Part 3: Sorting Retrieved Data (45 minutes)
 
 **3.1 Sorting by Amount:** 
 Write a query to display all expenses sorted by amount in a specific order (e.g., descending order for highest to lowest spending).
 
+SELECT *
+FROM expenses
+ORDER BY amount DESC;
+
+
+
+
 **3.2 Sorting by Date and Category:**  
 Modify your query to sort expenses based on multiple columns. For example, you might sort first by date (descending order) and then by category (ascending order) to see recent spending trends by category.
+
+SELECT *
+FROM expenses
+ORDER BY date DESC, category ASC;
+
+
 
 ## Part 4: Database Upgrade
 
 Imagine you're tasked by the CIO to expand your Expense Tracker database. Practice creating, modifying, and removing a table to manage spending habits.
+
+--creating table in expense tracker database
+USE expense_tracker;
+CREATE TABLE spending_habits(
+    habit_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id  INT,
+    habit_category VARCHAR(60),
+
+);
+
+--modifying spending habits table by adding another column
+ALTER TABLE spending_habits
+ADD COLUMN habits_description TEXT;
+
+-- removing habit category column
+ALTER TABLE speng_habits
+DROP COLUMN habit_category;
+
+--removing a table
+DROP TABLE spending_habits;
+
+
+
 
 **4.1 Write SQL commands to achieve the following:**
 
@@ -83,15 +187,43 @@ date (DATE) - NOT NULL
 
 source (VARCHAR(50)) - NOT NULL
 
+
+USE expense_tracker;
+CREATE TABLE income(
+income_id INT AUTO_INCREMENT PRIMARY KEY,
+amount DECIMAL(10,2) NOT NULL,
+date DATE NOT NULL,
+source VARCHAR(50) NOT NULL
+);
+
+
+
+
+
+
 **4.2 After creating the "Income" table, you realize you also want to track the income category "source" (e.g., "Salary," "Freelance Work").** 
 
 * Use ALTER TABLE to add a new column named "category" of type VARCHAR(50).
+
+ALTER TABLE income
+ADD COLUMN category VARCHAR(50);
+
+
+
+
   
 **4.3 Let's say you decide tracking the income source isn't necessary for now.**
 
 * Use ALTER TABLE again to remove the "source" column from the "Income" table.
 
+ALTER TABLE income
+DROP COLUMN source;
+
+
 Imagine you no longer need the "Income" table entirely. Experiment how to Use DROP TABLE to permanently remove it from your database.
+
+DROP TABLE income;
+
 
 Ensure to save all your queries in a document and upload onto this repo. 
 
